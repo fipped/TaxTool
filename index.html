@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>链家税务计算小工具</title>
+	<script src="jquery-3.1.1.min.js"></script>
+	<link rel="stylesheet" href="semantic.min.css">
+	<script src="semantic.min.js"></script>
+	<style>
+		body{
+			overflow: scroll;
+		}
+	</style>
+	<style media="print">.noprint{visibility:hidden}</style>
+</head>
+<body>
+	<div class="ui container">
+	 <!--startprint--> 
+	<img src="Logo.png" alt="">
+	<table class="ui celled structured single line table">
+		<thead>
+		  <tr>
+		  <th colspan="5" class="inverted olive"><h2>二手房交易税费明细表</h2></th>
+		  </tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td colspan="2">物业名称</td>
+			<td colspan="3">
+				<div class="ui transparent input">
+  				<input id="P_name" type="text" placeholder="输入物业名称">
+				</div>
+			</td>
+
+		</tr>
+		<tr>			
+			<td colspan="2">产权建筑面积(㎡ )</td>
+			<td>
+				<div class="ui transparent input">
+  				<input id="area" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" placeholder="输入产权建筑面积">
+				</div>
+			</td>
+			<td>预计过户指导价(元/㎡ )</td>
+			<td>
+				<div class="ui transparent input">
+  				<input id="GPrice" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" placeholder="输入预计过户指导价">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">合同成交价(元)</td>
+			<td>
+				<div class="ui transparent input">
+  				<input id="TPrice" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" placeholder="输入合同成交价">
+				</div>
+			</td>
+			<td>原始价格(元)</td>
+			<td>
+				<div class="ui transparent input">
+  				<input id="Price" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" placeholder="输入原始价格">
+				</div>
+			</td>
+		</tr>
+		<tr class="positive">
+			<td>交易方</td>
+			<td>税费项目</td>
+			<td>
+				<div class="ui slider checkbox" id="res">
+	  			<input type="radio" name="residence" value="1" checked="checked">
+	  			<label for="residence">住宅</label>
+				</div>
+			</td>
+			<td>
+				<div class="ui slider checkbox" id="nores">
+	  			<input type="radio" name="residence" value="0">
+	  			<label for="residence">非住宅</label>
+				</div>
+			</td>
+			<td>税费(元)</td>
+		</tr>
+		<tr>
+			<td rowspan="6">出售方</td>
+			<td>增值税及其附加</td>
+			<td>
+  				<div class="grouped fields">
+			    <div class="field">
+			      <div class="ui radio checkbox res">
+			        <input type="radio" name="VaddTax"  value="0">
+			        <label>满两年：免征</label>
+			      </div>
+			    </div>
+			    <div class="field">
+			      <div class="ui radio checkbox res">
+			        <input type="radio" name="VaddTax" value="1">
+			        <label>不满两年：总预计过户指导价*5.6%</label>
+			      </div>
+			    </div>
+			    <div class="field">
+			      <div class="ui radio checkbox res">
+			        <input type="radio" name="VaddTax" value="2">
+			        <label>产权人为公司：差额*5.6%</label>
+			      </div>
+			    </div>
+			</div>
+			</td>
+			<td>差额*5.6%</td>
+			<td id="VaddTax"></td>
+		</tr>
+		<tr>
+			<td>个人所得税</td>
+			<td>
+			<div class="grouped fields">
+			    <div class="field">
+			      <div class="ui radio checkbox res">
+			        <input type="radio" name="ResIndividual"  value="0">
+			        <label>不满五/不唯一：总预计过户指导价 * 1.5%</label>
+			      </div>
+			    </div>
+			    <div class="field">
+			      <div class="ui radio checkbox res">
+			        <input type="radio" name="ResIndividual" value="1">
+			        <label>满五年唯一：免征</label>
+			      </div>
+			    </div>
+			    <div class="field">
+			      <div class="ui radio checkbox res">
+			        <input type="radio" name="ResIndividual" value="2">
+			        <label>不增值：免征</label>
+			      </div>
+			    </div>
+				<div class="field">
+			      <div class="ui radio checkbox res">
+			        <input type="radio" name="ResIndividual" value="3">
+			        <label>公司产权：免征</label>
+			      </div>
+			    </div>
+			    </div>
+			</td>
+			<td>
+			<div class="grouped fields">
+			<div class="field">
+				<div class="ui radio checkbox nores">
+				<input type="radio" name="Individual"  value="0">
+				<label>增值：总预计过户指导价 * 1.5%</label>
+				</div>
+			</div>
+			<div class="field">
+				<div class="ui radio checkbox nores">
+				<input type="radio" name="Individual" value="1">
+				<label>不增值：免征</label>
+				</div>
+			</div>
+			</div>
+			</td>
+			<td id="Individual"></td>
+		</tr>
+		<tr>
+			<td>土地增值税</td>
+			<td>
+			<div class="grouped fields">
+			<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="ResLand"  value="0">
+					<label>产权人为个人：免征</label>
+				</div>
+			</div>
+			<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="ResLand" value="1">
+					<label>产权人为公司：地税报税</label>
+				</div>
+			</div>
+			</div>
+			</td>
+			<td>
+			<div class="grouped fields">
+			<div class="field">
+				<div class="ui radio checkbox nores">
+					<input type="radio" name="Land"  value="0">
+					<label>产权人为个人：总预计过户指导价×5%</label>
+				</div>
+			</div>
+			<div class="field">
+				<div class="ui radio checkbox nores">
+					<input type="radio" name="Land" value="1">
+					<label>产权人为公司：地税报税</label>
+				</div>
+			</div>
+			</div>
+			</td>
+			<td id="Land"></td>
+		</tr>
+		<tr>
+			<td>印花税</td>
+			<td>
+			<div class="grouped fields">
+			<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="Stamp"  value="0">
+					<label>产权人为个人：免征 </label>
+				</div>
+			</div> 
+			<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="Stamp" value="1">
+					<label>产权人为公司：总预计过户指导价 * 0.05% </label>
+				</div>
+			</div> 
+			</div>
+			</td>
+			<td>总预计过户指导价 * 0.05%</td>
+			<td id="Stamp"></td>
+		</tr>
+		<tr>
+			<td>交易手续费</td>
+			<td colspan="2">产权证面积 ×2元/㎡</td>
+			<td id="TradeFee"></td>
+		</tr>
+		<tr>
+			<td>公告费</td>
+			<td colspan="2">100元按照字符收费。(购买境外人士房产)</td>
+			<td id="announce"></td>
+		</tr>
+		<tr>
+			<td rowspan="9">购买方</td>
+			<td>契税</td>
+			
+			<td>
+			<div class="grouped field">
+				<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="Deed"  value="0">
+					<label>首套：面积≤90平：总预计过户指导价*1%</label>
+				</div>
+				</div>
+				<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="Deed" value="1">
+					<label>首套：面积＞90平：总预计过户指导价*1.5%</label>
+				</div>
+				</div>
+				<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="Deed" value="2">
+					<label>第二套：面积＜90平 总预计过户指导价*1%</label>
+				</div>
+				</div>
+				<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="Deed" value="3">
+					<label>第二套：面积＞90平：总预计过户指导价*2%</label>
+				</div>
+				</div>
+				<div class="field">
+				<div class="ui radio checkbox res">
+					<input type="radio" name="Deed" value="4">
+					<label>三套及以上：总预计过户指导价 * 3%</label>
+				</div>
+				</div>
+			</div>
+			</td>
+			<td>总预计过户指导价 * 3%  </td>
+			<td id="Deed"></td>
+		</tr>
+		<tr>
+			<td>印花税</td>
+			<td>
+			<div class="grouped field">
+				<div class="field">
+					<div class="ui radio checkbox res">
+						<input type="radio" name="Stamp2"  value="0">
+						<label>购买方为个人的：免征</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox res">
+						<input type="radio" name="Stamp2" value="1">
+						<label>购买方为公司的：总预计过户指导价 * 0.05%</label>
+					</div>
+				</div>
+			</div>
+			</td>
+			<td>
+				总预计过户指导价 * 0.05%
+			</td>
+			<td id="Stamp2"></td>
+		</tr>
+		<tr>
+			<td>交易手续费</td>
+			<td> 产权证面积 ×2元/㎡</td>
+			<td> <div class="filed">
+				<div class="ui checkbox nores">
+					<input type="checkbox" name="Trade1">
+					<label>车位300元/个</label>
+				</div>
+			</div>
+			<div class="filed">
+				<div class="ui checkbox nores">
+					<input type="checkbox" name="Trade2">
+					<label>其他（车库，店铺，写字楼）11.5元/㎡</label>
+				</div>
+			</div></td>
+			<td id="TradeFee2"></td>
+		</tr>
+		<tr>
+			<td>土地出让金</td>
+			<td>
+			<div class="grouped field">
+				<div class="field">
+					<div class="ui radio checkbox res">
+						<input type="radio" name="Grand"  value="0">
+						<label>住宅：免征</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox res">
+						<input type="radio" name="Grand"  value="1">
+						<label>私宅：总预计过户指导价*8%</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox res">
+						<input type="radio" name="Grand" value="2">
+						<label>拆迁安置房：总预计过户指导价*4%</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox res">
+						<input type="radio" name="Grand" value="3">
+						<label>公房：总预计过户指导价*1%<br>（如房改房、统建房、侨改房、经济适用房、解困房）</label>
+					</div>
+				</div>
+			</div>
+			</td>
+			<td>
+				<div class="grouped field">
+					<div class="field">
+						<div class="ui radio checkbox nores">
+							<input type="radio" name="Land2" value="0">
+							<label>划拨：土地批租处先申请报税</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox nores">
+							<input type="radio" name="Land2" value="1">
+							<label>出让：免征</label>
+						</div>
+					</div>
+				</div>
+			</td>
+			<td id="Grand"></td>
+		</tr>
+		<tr>
+			<td>工本费</td>
+			<td colspan="2">
+<div class="ui form">
+			<div class="inline fields">
+			<div class="field">
+				<div class="ui radio checkbox">
+					<input type="radio" name="PeoNum"  value="0">
+					<label>1人</label>
+				</div>
+			</div>
+			<div class="field">
+				<div class="ui radio checkbox">
+					<input type="radio" name="PeoNum" value="1">
+					<label>2人</label>
+				</div>
+			</div>
+(5元/本) 
+			</div></div>
+			</td>
+			<td id="Fee"></td>
+		</tr>
+		<tr>
+			<td>权属变更登记费</td>
+			<td>
+			<div class="filed">
+				<div class="ui checkbox res">
+					<input type="checkbox" name="Own1">
+					<label>住宅:180元/个</label>
+				</div>
+			</div>
+			</td>
+			<td>
+			<div class="filed">
+				<div class="ui checkbox nores">
+					<input type="checkbox" name="Own2">
+					<label>车位：180元/个</label>
+				</div>
+			</div>
+			<div class="filed">
+				<div class="ui checkbox nores">
+					<input type="checkbox" name="Own3">
+					<label>其他：1250元/个</label>
+				</div>
+			</div>
+			</td>
+			<td id="Own"></td>
+		</tr>
+		<tr>
+			<td>评估费</td>
+			<td colspan="2">
+			1-100万：总预计过户指导价 * 0.4%
+			<br>
+			101-1000万：总预计过户指导价 * 0.2%
+			<br>
+			1001-2000万：总预计过户指导价 * 0.14%
+			</td>
+			<td id="Guide"></td>
+		</tr>
+		<tr>
+			<td>居间服务费</td>
+			<td colspan="2">实际成交价 * 2.5%	</td>
+			<td id="Serve"></td>
+		</tr>
+		<tr>
+			<td>代办服务费</td>
+			<td colspan="2">800元/件</td>
+			<td>800.00</td>
+		</tr>
+		<tr>
+			<td colspan="2">总计(元)</td>
+			<td colspan="3" id="tot"></td>
+		</tr>
+		</tbody>
+	</table>
+	<p>注：以上所列税费发生额以政府部门相关单位或部门实际收取的为准。</p>
+	 <!--endprint--> 
+	<div class="noprint">
+	<button class="ui button positive" onclick="solve();">计算税费</button>
+	<button class="ui button" onclick="window.print();">打印pdf</button>
+	<button class="ui button negative" onclick="history.go(0);">重置</button>
+	</div>
+	</div>
+	<br>
+	<div class="ui vertical footer segment noprint">
+		<div class="ui container">
+			Copyright©️raowj 2017
+		</div>
+	</div>
+	<script>
+	 $(".nores").checkbox('set disabled');
+	 $(".ui.checkbox").checkbox();
+	 $("#nores").checkbox({
+	 	 onChecked: function(){
+	 	 	$(".nores").checkbox('set enabled');
+	 	 	$(".res").checkbox('set disabled');
+	 	 }
+	 });
+	 $("#res").checkbox({
+	 	onChecked:function(){
+	 	 	$(".res").checkbox('set enabled');
+	 	 	$(".nores").checkbox('set disabled');
+	 	}
+	 })
+	 function solve(){
+	 	var S=$("#area").val();//面积
+	 	var G=$("#GPrice").val()*S;//总预计过户指导价
+	 	var T=$("#TPrice").val();//合同成交价
+	 	var P=$("#Price").val();
+	 	var ans=0,tot=0;
+	 	if($("input[name='residence']:checked").val()=="1"){//住宅
+	 		switch($("input[name='VaddTax']:checked").val()){
+	 			case "1":ans=0.056*G;break;
+	 			case "2":ans=0.056*(T-G);break;
+	 			default:break;
+	 		}
+	 		if(ans<0)ans=0;
+	 		tot+=ans;
+	 		$("#VaddTax").html(ans.toFixed(2));
+	 		
+	 		if($("input[name='ResIndividual']:checked").val()=="0")
+	 			ans=G*0.015;
+	 		else ans=0;
+	 		tot+=ans;
+	 		$("#Individual").html(ans.toFixed(2));
+
+	 		$("#Land").html("0.00");
+
+	 		if($("input[name='Stamp']:checked").val()=="1")
+	 			ans=G*0.0005;
+	 		else ans=0;
+	 		tot+=ans;
+	 		$("#Stamp").html(ans.toFixed(2));
+
+	 		switch($("input[name='Deed']:checked").val()){
+	 			case "0":case "2":ans=G*0.01;break;
+	 			case "1":ans=G*0.015;break;
+	 			case "3":ans=G*0.02;break;
+	 			default:ans=G*0.03;break;
+	 		}
+	 		tot+=ans;
+	 		$("#Deed").html(ans.toFixed(2));
+
+	 		if($("input[name='Stamp2']:checked").val()=="1")
+	 			ans=G*0.0005;
+	 		else ans=0;
+	 		tot+=ans;
+	 		$("#Stamp2").html(ans.toFixed(2));
+
+
+	 		switch($("input[name='Grand']:checked").val()){
+	 			case "1":ans=G*0.08;break;
+	 			case "2":ans=G*0.04;break;
+	 			case "3":ans=G*0.01;break;
+	 			default:ans=0;break;
+	 		}
+	 		tot+=ans;
+	 		$("#Grand").html(ans.toFixed(2));
+
+	 		ans=0;
+	 		if($("input[name='Own1']").is(':checked'))
+	 			ans+=180;
+	 		tot+=ans;
+	 		$("#Own").html(ans.toFixed(2));
+
+	 		switch($("input[name='Guide']:checked").val()){
+	 			case "0": ans=G*0.004;break;
+	 			case "1": ans=G*0.002;break;
+	 			default: ans=G*0.0014;break;
+	 		}
+	 		tot+=ans;
+	 		$("#Guide").html(ans.toFixed(2));
+	 		ans=T*0.025;
+	 		tot+=ans;
+	 		$("#Serve").html(ans.toFixed(2));
+	 		tot+=800;
+
+	 	}else{
+			ans=0.056*(T-G);
+	 		if(ans<0)ans=0;
+			tot+=ans;
+	 		$("#VaddTax").html(ans.toFixed(2));
+
+	 		if($("input[name='Individual']:checked").val()=="0")
+	 			ans=G*0.015;
+	 		else ans=0;
+	 		tot+=ans;
+	 		$("#Individual").html(ans.toFixed(2));
+
+	 		if($("input[name='Land']:checked").val()=="0")
+	 			ans=G*0.05;
+	 		else ans=0;
+			
+			tot+=ans;
+	 		$("#Land").html(ans.toFixed(2));
+
+			ans=G*0.0005;
+	 		tot+=ans;
+	 		$("#Stamp").html(ans.toFixed(2));
+			$("#Stamp2").html(ans.toFixed(2));
+
+	 		ans=G*0.03;
+	 		tot+=ans;
+	 		$("#Deed").html(ans.toFixed(2));
+
+	 		ans=0;
+	 		$("#TradeFee").html(ans.toFixed(2));
+	 		if($("input[name='Trade1']:checked").val())ans+=300;
+	 		if($("input[name='Trade2']:checked").val())ans+=11.5*S;
+	 		tot+=ans;
+	 		$("#TradeFee2").html(ans.toFixed(2));
+	 		$("#Grand").html("0.00");
+
+	 		ans=0;
+	 		if($("input[name='Own2']").is(':checked'))
+	 			ans+=180;
+	 		if($("input[name='Own3']").is(':checked'))
+	 			ans+=1250;
+	 		tot+=ans;
+	 		$("#Own").html(ans.toFixed(2));
+
+	 	}
+	 		 
+
+ 		ans=G*2;
+ 		tot+=ans*2;
+ 		$("#TradeFee").html(ans.toFixed(2));
+ 		$("#TradeFee2").html(ans.toFixed(2));
+
+
+		$("#announce").html("0.00");
+
+		if($("input[name='PeoNum']:checked").val()=="0")
+ 			ans=5;
+ 		else ans=10;
+ 		tot+=ans;
+ 		$("#Fee").html(ans.toFixed(2));
+	 	$("#tot").html(tot.toFixed(2));
+
+	 }
+	</script>
+</body>
+
+</html>
