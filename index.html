@@ -31,7 +31,7 @@
   				<input id="P_name" type="text" placeholder="输入物业名称">
 				</div>
 			</td>
-			<td>评估价(元/㎡)</td>
+			<td>评估价(万元/㎡)</td>
 			<td>
 				<div class="ui transparent input">
   				<input id="pgPrice" type="number" placeholder="输入评估价">
@@ -46,7 +46,7 @@
   				<input id="area" type="number" placeholder="输入产权建筑面积">
 				</div>
 			</td>
-			<td>预计过户指导价(元/㎡ )</td>
+			<td>预计过户指导价(万元/㎡ )</td>
 			<td>
 				<div class="ui transparent input">
   				<input id="GPrice" type="number" placeholder="输入预计过户指导价">
@@ -407,11 +407,11 @@
 		<tr>
 			<td>评估费</td>
 			<td colspan="2">
-			1-100万：总评估费 * 0.4%
+			1-100万：总评估指导价 * 0.4%
 			<br>
-			101-1000万：总评估费 * 0.2%
+			101-1000万：总评估指导价 * 0.2%
 			<br>
-			1001-2000万：总评估费 * 0.14%
+			1001-2000万：总评估指导价 * 0.14%
 			</td>
 			<td id="Guide"></td>
 		</tr>
@@ -462,10 +462,10 @@
 	 })
 	 function solve(){
 	 	var S=$("#area").val();//面积
-	 	var G=$("#GPrice").val()*S;//总预计过户指导价
+	 	var G=$("#GPrice").val()*10000*S;//总预计过户指导价
 	 	var T=$("#TPrice").val();//合同成交价
 	 	var P=$("#Price").val();//原价
-	 	var pg=$("#pgPrice").val()*S;//评估指导价
+	 	var pg=$("#pgPrice").val()*10000*S;//评估指导价
 	 	var ans=0,tot=0;
 
 	 	//住宅	
@@ -596,12 +596,14 @@
 	 	}
 	 		 
 //以下是住宅或非住宅都有的
-//评估费	
- 		if(G<=1000000)ans=pg*0.004;
- 		else if(G<=10000000)
+//评估费	n
+ 		if(pg<=1000000)ans=pg*0.004;
+ 		else if(pg<=10000000)
  			ans=1000000*0.004+(pg-1000000)*0.002;
- 		else if(G<=20000000)
+ 		else if(pg<=20000000)
  			ans=1000000*0.004+(10000000-1000000)*0.002+(pg-10000000)*0.0014;
+ 		ans*=0.61;
+
  		tot+=ans;
  		$("#Guide").html(ans.toFixed(2));
 
