@@ -36,34 +36,16 @@
   				<input id="P_name" type="text" placeholder="输入物业名称">
 				</div>
 			</td>
-			<td>贷款层数</td>
-			<td>
-				<div class="ui transparent input">
-  				<input id="cen" type="number" placeholder="输入贷款层数">
-				</div>
-			</td>
 			<td>评估价(万元/㎡)</td>
 			<td>
 				<div class="ui transparent input">
   				<input id="pgPrice" type="number" placeholder="输入评估价">
 				</div>
 			</td>
-		</tr>
-
-		<tr>			
 			<td>产权建筑面积(㎡ )</td>
 			<td>
 				<div class="ui transparent input">
   				<input id="area" type="number" placeholder="输入产权建筑面积">
-				</div>
-			</td>
-			<td>贷款(万元)</td>
-			<td id="loan">
-			</td>
-			<td>预计过户指导价(万元/㎡ )</td>
-			<td>
-				<div class="ui transparent input">
-  				<input id="GPrice" type="number" placeholder="输入预计过户指导价">
 				</div>
 			</td>
 		</tr>
@@ -74,14 +56,33 @@
   				<input id="TPrice" type="number" placeholder="输入合同成交价">
 				</div>
 			</td>
-			<td>首付(万元)</td>
-			<td id="firstpay">
-			</td>
+
 			<td>原始价格(万元)</td>
 			<td>
 				<div class="ui transparent input">
   				<input id="Price" type="number" placeholder="输入原始价格">
 				</div>
+			</td>
+
+			<td>过户指导价</td>
+			<td>
+				<div class="ui transparent input">
+  				<input id="GPrice" type="number" placeholder="输入过户指导价">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>贷款层数</td>
+			<td >
+				<div class="ui transparent input">
+  				<input id="cen" type="number" placeholder="输入贷款层数">
+				</div>
+			</td>
+			<td>贷款</td>
+			<td id="loan">
+			</td>
+			<td>首付(万元)</td>
+			<td id="firstpay">
 			</td>
 		</tr>
 		<tr class="positive">
@@ -102,7 +103,7 @@
 			<td>税费(元)</td>
 		</tr>
 		<tr>
-			<td rowspan="6">出售方</td>
+			<td rowspan="4">出售方</td>
 			<td>增值税及其附加</td>
 			<td colspan="2">
   				<div class="grouped fields">
@@ -116,12 +117,6 @@
 			      <div class="ui radio checkbox res">
 			        <input type="radio" name="VaddTax" value="1">
 			        <label>不满两年：总预计过户指导价*5.6%</label>
-			      </div>
-			    </div>
-			    <div class="field">
-			      <div class="ui radio checkbox res">
-			        <input type="radio" name="VaddTax" value="2">
-			        <label>产权人为公司：差额*5.6%</label>
 			      </div>
 			    </div>
 			</div>
@@ -234,16 +229,7 @@
 			<td>总预计过户指导价 * 0.05%</td>
 			<td id="Stamp"></td>
 		</tr>
-		<tr>
-			<td>交易手续费</td>
-			<td colspan="3">产权证面积 * 2元/㎡</td>
-			<td id="TradeFee"></td>
-		</tr>
-		<tr>
-			<td>公告费</td>
-			<td colspan="3">100元按照字符收费。(购买境外人士房产)</td>
-			<td id="announce"></td>
-		</tr>
+		
 		<tr>
 			<td rowspan="9">购买方</td>
 			<td>契税</td>
@@ -310,31 +296,14 @@
 		</tr>
 		<tr>
 			<td>交易手续费</td>
-			<td colspan="2"> 产权证面积 ×2元/㎡</td>
-			<td> <div class="filed">
-				<div class="ui checkbox nores">
-					<input type="checkbox" name="Trade1">
-					<label>车位300元/个</label>
-				</div>
-			</div>
-			<div class="filed">
-				<div class="ui checkbox nores">
-					<input type="checkbox" name="Trade2">
-					<label>其他（车库，店铺，写字楼）11.5元/㎡</label>
-				</div>
-			</div></td>
-			<td id="TradeFee2"></td>
+			<td colspan="2"> 产权证面积 ×4元/㎡</td>
+			<td> 产权证面积x11.5元/㎡</td>
+			<td id="TradeFee"></td>
 		</tr>
 		<tr>
 			<td>土地出让金</td>
 			<td colspan="2">
 			<div class="grouped field">
-				<div class="field">
-					<div class="ui radio checkbox res">
-						<input type="radio" name="Grand"  value="0">
-						<label>住宅：免征</label>
-					</div>
-				</div>
 				<div class="field">
 					<div class="ui radio checkbox res">
 						<input type="radio" name="Grand"  value="1">
@@ -350,19 +319,14 @@
 				<div class="field">
 					<div class="ui radio checkbox res">
 						<input type="radio" name="Grand" value="3">
-						<label>公房：总预计过户指导价*1%<br>（如房改房、统建房、侨改房、经济适用房、解困房）</label>
+						<label>公房：总预计过户指导价*1%<br>
+						<span style="font-size:9px">（如房改房、统建房、侨改房、经济适用房、解困房）</span></label>
 					</div>
 				</div>
 			</div>
 			</td>
 			<td>
 				<div class="grouped field">
-					<div class="field">
-						<div class="ui radio checkbox nores">
-							<input type="radio" name="Land2" value="0">
-							<label>划拨：土地批租处先申请报税</label>
-						</div>
-					</div>
 					<div class="field">
 						<div class="ui radio checkbox nores">
 							<input type="radio" name="Land2" value="1">
@@ -373,49 +337,22 @@
 			</td>
 			<td id="Grand"></td>
 		</tr>
-		<tr>
-			<td>工本费</td>
-			<td colspan="3">
-<div class="ui form">
-			<div class="inline fields">
-			<div class="field">
-				<div class="ui radio checkbox">
-					<input type="radio" name="PeoNum"  value="0">
-					<label>1人</label>
-				</div>
-			</div>
-			<div class="field">
-				<div class="ui radio checkbox">
-					<input type="radio" name="PeoNum" value="1">
-					<label>2人</label>
-				</div>
-			</div>
-(5元/本) 
-			</div></div>
-			</td>
-			<td id="Fee"></td>
-		</tr>
+		
 		<tr>
 			<td>权属变更登记费</td>
 			<td colspan="2">
 			<div class="filed">
 				<div class="ui checkbox res">
-					<input type="checkbox" name="Own1">
-					<label>住宅:180元/个</label>
+					<input type="checkbox" name="Own" value="80">
+					<label>住宅:80元/个</label>
 				</div>
 			</div>
 			</td>
 			<td>
 			<div class="filed">
 				<div class="ui checkbox nores">
-					<input type="checkbox" name="Own2">
-					<label>车位：180元/个</label>
-				</div>
-			</div>
-			<div class="filed">
-				<div class="ui checkbox nores">
-					<input type="checkbox" name="Own3">
-					<label>其他：1250元/个</label>
+					<input type="checkbox" name="Own" value="550">
+					<label>非住宅：550元/个</label>
 				</div>
 			</div>
 			</td>
@@ -440,7 +377,7 @@
 		<tr>
 			<td>代办服务费</td>
 			<td colspan="3">800元/件</td>
-			<td>800.00</td>
+			<td id="Fee"></td>
 		</tr>
 		<tr>
 			<td colspan="3">总计</td>
@@ -483,23 +420,26 @@
 	 function solve(){
 	 	var S=$("#area").val();//面积
 	 	var G=$("#GPrice").val()*10000*S;//总预计过户指导价
+	 	var P=$("#Price").val()*10000;
 	 	var T=$("#TPrice").val()*10000;//合同成交价
-	 	var P=$("#Price").val()*10000;//原价
 	 	var pg=$("#pgPrice").val()*10000*S;//评估指导价
 	 	var cutoff=$("#cut").val()*0.1;//评估价打折
 	 	var ans=0,tot=0;//临时变量，总价
 		var cen=$("#cen").val();//贷款层数
-		var loan=cen*pg;//贷款
-		$("#loan").html(loan/10000);
+		var loan=cen*pg;
+		$("#loan").html(loan/10000);//贷款
 		$("#firstpay").html((T-loan)/10000);//首付
-//住宅
+/*
+	住宅
+*/
 	 	if($("input[name='residence']:checked").val()=="1"){
-	 		
+/*
+	出售方
+*/
 //增值税
 	 		switch($("input[name='VaddTax']:checked").val()){
 	 			case "1":ans=0.056*G;break;//不满两年
-	 			case "2":if(G>P)ans=0.056*(G-P); break;//产权人为公司
-	 			default:break;
+	 			default:ans=0;break;
 	 		}
 	 		tot+=ans;
 	 		$("#VaddTax").html(ans.toFixed(2));
@@ -520,13 +460,9 @@
 	 		else ans=0;
 	 		tot+=ans;
 	 		$("#Stamp").html(ans.toFixed(2));
-
-//交易手续费
-			ans=S*2;
-			tot+=ans*2;
-			$("#TradeFee").html(ans.toFixed(2));
-			$("#TradeFee2").html(ans.toFixed(2));
-
+/*
+	购买方
+*/
 //契税
 	 		switch($("input[name='Deed']:checked").val()){
 	 			case "0":case "2":ans=G*0.01;break;//首套<90，第二套<90
@@ -543,6 +479,10 @@
 	 		tot+=ans;
 	 		$("#Stamp2").html(ans.toFixed(2));
 
+//交易手续费
+			ans=S*4;
+			tot+=ans;
+			$("#TradeFee").html(ans.toFixed(2));
 //土地出让金
 			switch($("input[name='Grand']:checked").val()){
 	 			case "1":ans=G*0.08;break;//私宅
@@ -552,16 +492,19 @@
 	 		}
 	 		tot+=ans;
 	 		$("#Grand").html(ans.toFixed(2));
-
 //权属变更登记费
-	 		ans=0;
-	 		if($("input[name='Own1']").is(':checked'))
-	 			ans+=180;
+			if($("input[name='Own']").is(":checked"))
+	 			ans=Number($("input[name='Own']:checked").val());
+	 		else ans=0;
 	 		tot+=ans;
 	 		$("#Own").html(ans.toFixed(2));
-
 	 	}else{
-//以下是非住宅
+/*
+	非住宅
+*/
+/*
+	购买方
+*/
 //增值税
 			ans=0.056*(G-P);
 	 		if(ans<0)ans=0;
@@ -588,39 +531,20 @@
 	 		$("#Stamp").html(ans.toFixed(2));//出售方
 			$("#Stamp2").html(ans.toFixed(2));//购买方
 
-//交易手续费
-			ans=S*2;
-			tot+=ans*2;
-			$("#TradeFee").html(ans.toFixed(2));
-			$("#TradeFee2").html(ans.toFixed(2));
-
 //契税
 	 		ans=G*0.03;
 	 		tot+=ans;
 	 		$("#Deed").html(ans.toFixed(2));
 
 //交易手续费
-	 		ans=0;
-	 		if($("input[name='Trade1']:checked").val())ans+=300;
-	 		if($("input[name='Trade2']:checked").val())ans+=11.5*S;
-	 		tot+=ans;
-	 		$("#TradeFee2").html(ans.toFixed(2));
+	 		ans=11.5*S;
+	 		$("#TradeFee").html(ans.toFixed(2));
 //土地出让金
 	 		$("#Grand").html("0.00");
-
-//权属变更登记费
-	 		ans=0;
-	 		if($("input[name='Own2']").is(':checked'))
-	 			ans+=180;
-	 		if($("input[name='Own3']").is(':checked'))
-	 			ans+=1250;
-	 		tot+=ans;
-	 		$("#Own").html(ans.toFixed(2));
-
 	 	}
 	 		 
 //以下是住宅或非住宅都有的
-//评估费	n
+//评估费
 		var baiwan=1000000,qianwan=10000000;
  		if(pg<=baiwan)ans=pg*0.004;
  		else if(pg<=qianwan)
@@ -636,16 +560,10 @@
  		ans=T*0.025;
  		tot+=ans;
  		$("#Serve").html(ans.toFixed(2));
-//公告费
-		$("#announce").html("0.00");
 
 //代办服务费
 	 	tot+=800;
-		if($("input[name='PeoNum']:checked").val()=="0")
- 			ans=5;
- 		else ans=10;
- 		tot+=ans;
- 		$("#Fee").html(ans.toFixed(2));
+ 		$("#Fee").html("800.00");
  //总计
 	 	$("#tot").html(tot.toFixed(2)+"元 （"+(tot/10000).toFixed(2)+"万元）");
 
