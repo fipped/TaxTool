@@ -624,7 +624,7 @@
 		var baiwan=1000000,qianwan=10000000;
  		if(pg<=baiwan)ans=pg*0.004;
  		else if(pg<=qianwan)
- 			ans=baiwan*0.004+(pg-qianwan)*0.002;
+ 			ans=baiwan*0.004+(pg-baiwan)*0.002;
  		else if(pg<=2*qianwan)
  			ans=baiwan*0.004+(qianwan-baiwan)*0.002+(pg-qianwan)*0.0014;
  		ans*=cutoff>0?cutoff:0.6;
